@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
+         version="5.0">
+
+  <display-name>xianyu-trading-platform-backend</display-name>
+
+  <filter>
+    <filter-name>TraceIdFilter</filter-name>
+    <filter-class>io.github.fantasticname.xianyutradingplatform.filter.TraceIdFilter</filter-class>
+  </filter>
+  <filter>
+    <filter-name>EncodingFilter</filter-name>
+    <filter-class>io.github.fantasticname.xianyutradingplatform.filter.EncodingFilter</filter-class>
+  </filter>
+  <filter>
+    <filter-name>CorsFilter</filter-name>
+    <filter-class>io.github.fantasticname.xianyutradingplatform.filter.CorsFilter</filter-class>
+  </filter>
+  <filter>
+    <filter-name>ExceptionHandlingFilter</filter-name>
+    <filter-class>io.github.fantasticname.xianyutradingplatform.filter.ExceptionHandlingFilter</filter-class>
+  </filter>
+  <filter>
+    <filter-name>JwtAuthFilter</filter-name>
+    <filter-class>io.github.fantasticname.xianyutradingplatform.filter.JwtAuthFilter</filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>TraceIdFilter</filter-name>
+    <url-pattern>/api/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>EncodingFilter</filter-name>
+    <url-pattern>/api/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>CorsFilter</filter-name>
+    <url-pattern>/api/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>ExceptionHandlingFilter</filter-name>
+    <url-pattern>/api/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>JwtAuthFilter</filter-name>
+    <url-pattern>/api/*</url-pattern>
+  </filter-mapping>
+
+  <servlet>
+    <servlet-name>ApiDispatcherServlet</servlet-name>
+    <servlet-class>io.github.fantasticname.xianyutradingplatform.controller.ApiDispatcherServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ApiDispatcherServlet</servlet-name>
+    <url-pattern>/api/*</url-pattern>
+  </servlet-mapping>
+
+</web-app>
+
