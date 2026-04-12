@@ -1,11 +1,22 @@
 package io.github.fantasticname.xianyutradingplatform.service.vo;
 
 /**
+ * 用户公开信息 VO
+ *
  * @author FantasticName
  */
 public class UserPublicVO {
+    /**
+     * 用户 ID
+     */
     private String id;
+    /**
+     * 用户昵称
+     */
     private String nickname;
+    /**
+     * 用户头像 URL
+     */
     private String avatarUrl;
 
     public UserPublicVO() {

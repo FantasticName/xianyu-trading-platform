@@ -26,7 +26,7 @@ public class EncodingFilter implements Filter {
         request.setCharacterEncoding("UTF-8");
         // 2) 设置响应编码，确保响应体（如 JSON）以 UTF-8 写出。
         response.setCharacterEncoding("UTF-8");
-        // 3) 继续过滤器链。
+        // 3) 放行 , 继续过滤器链。
         chain.doFilter(request, response);
     }
 }

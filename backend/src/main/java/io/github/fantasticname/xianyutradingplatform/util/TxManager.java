@@ -25,6 +25,8 @@ import java.sql.Connection;
 public final class TxManager {
     // 1. 定义一个 ThreadLocal，专门用来装 Connection。
     // 这里把名字起成 CTX（Context 上下文），意思是"当前线程的事务上下文"。
+    // CTX有一个set(Connection conn)方法，把connection对象绑到当前线程上,这个方法在 executeInTransaction 方法中调用
+    // CTX有一个get()方法,用于获取: 与"当前线程上下文"绑定在一起的"connection对象"
     private static final ThreadLocal<Connection> CTX = new ThreadLocal<>();
 
 
@@ -54,7 +56,7 @@ public final class TxManager {
      * 3) 执行业务逻辑：成功则提交；发生业务异常则回滚并原样抛出；其他异常回滚并转换为统一的业务异常。<br>
      * 4) finally 中移除线程上下文，并尽力恢复连接的自动提交开关；连接由 try-with-resources 关闭。
      *
-     * @param ds 数据源，用于在无外层事务时创建事务连接
+     * @param ds 数据库连接池对象，如果当前线程没有事务，用它开连接connection。
      * @param supplier 事务内要执行的逻辑（通常由 Service 层提供）
      * @param <T> 返回值类型
      * @return supplier 的执行结果
@@ -63,10 +65,15 @@ public final class TxManager {
     public static <T> T executeInTransaction(DataSource ds, TxSupplier<T> supplier) {
         Connection existing = CTX.get();
         if (existing != null) {
-            // 已经处于外层事务中：复用同一个连接与事务边界，避免开启新的事务（也避免重复提交/回滚）。
+            
+            // 已经有连接了？说明外层已经调过 executeInTransaction 了。
+            // 这里我们采取简单策略：直接执行业务逻辑，不开启新连接，不提交，不关闭。
             return supplier.get();
         }
 
+
+        // try-with-resources：不管怎么着，出了这个代码块，conn 一定会被 close()。
+        // 数据库连接池有装饰器,所以close()是归还而不是销毁
         try (Connection conn = ds.getConnection()) {
             // 以“手动提交”的方式开启事务，并将连接绑定到当前线程，供 DAO 复用。
             conn.setAutoCommit(false);
@@ -85,6 +92,8 @@ public final class TxManager {
                 conn.rollback();
                 throw new BusinessException(ErrorCode.INTERNAL_ERROR, "事务执行失败");
             } finally {
+                // 特别特别重要!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                // 因为Jetty/Tomcat 线程池的原因, 请求结束后线程不会死, 但是: 一个请求对应一个连接,
                 // 清理线程上下文，避免连接泄漏到后续请求；并尽力恢复自动提交状态，便于连接回收到池中时可复用。
                 CTX.remove();
                 conn.setAutoCommit(true);

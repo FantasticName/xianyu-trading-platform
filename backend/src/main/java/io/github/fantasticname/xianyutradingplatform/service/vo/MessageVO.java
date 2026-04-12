@@ -1,13 +1,30 @@
 package io.github.fantasticname.xianyutradingplatform.service.vo;
 
 /**
+ * 消息简要信息 VO
+ *
  * @author FantasticName
  */
 public class MessageVO {
+    /**
+     * 消息 ID
+     */
     private String id;
+    /**
+     * 所属会话 ID
+     */
     private String conversationId;
+    /**
+     * 发送者用户 ID
+     */
     private String senderId;
+    /**
+     * 消息内容
+     */
     private String content;
+    /**
+     * 发送时间
+     */
     private String createdAt;
 
     public String getId() {

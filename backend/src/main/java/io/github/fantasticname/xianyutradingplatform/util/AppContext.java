@@ -46,6 +46,19 @@ import javax.sql.DataSource;
  *
  * @author FantasticName
  */
+
+
+/*
+组装顺序严格如下：
+
+创建数据库连接池 DataSource（从 DataSourceProvider 获取）。
+
+用 DataSource 创建各个 Dao（数据访问对象，类似 MyBatis 的 Mapper）。
+
+用 Dao 创建各个 Service（业务逻辑层）。
+
+用 Service 创建各个 Controller。
+ */
 public final class AppContext {
     private static final AppContext INSTANCE = new AppContext();
 

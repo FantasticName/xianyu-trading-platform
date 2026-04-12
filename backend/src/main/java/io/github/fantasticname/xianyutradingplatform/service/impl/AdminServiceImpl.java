@@ -13,6 +13,9 @@ import io.github.fantasticname.xianyutradingplatform.util.TxManager;
 import javax.sql.DataSource;
 
 /**
+ * 管理员服务实现类
+ * 负责执行管理员的具体业务逻辑，包括权限校验和数据库操作。
+ *
  * @author FantasticName
  */
 public class AdminServiceImpl implements AdminService {

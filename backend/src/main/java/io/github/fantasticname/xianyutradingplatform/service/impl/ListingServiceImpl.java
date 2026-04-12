@@ -25,6 +25,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 商品服务实现类
+ * 负责商品的全生命周期管理，包括复杂的搜索逻辑和分页处理。
+ *
  * @author FantasticName
  */
 public class ListingServiceImpl implements ListingService {

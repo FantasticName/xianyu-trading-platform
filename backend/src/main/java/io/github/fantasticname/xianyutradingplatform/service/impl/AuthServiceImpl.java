@@ -19,6 +19,9 @@ import javax.sql.DataSource;
 import java.time.LocalDateTime;
 
 /**
+ * 认证服务实现类
+ * 负责用户身份验证的具体逻辑，包括密码加密存储、JWT 令牌生成等。
+ *
  * @author FantasticName
  */
 public class AuthServiceImpl implements AuthService {

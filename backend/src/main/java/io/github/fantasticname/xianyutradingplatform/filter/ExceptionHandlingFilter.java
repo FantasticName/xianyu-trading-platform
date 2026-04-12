@@ -18,8 +18,8 @@ import java.io.IOException;
 
 /**
  * @author FantasticName
- */
-/**
+ *
+ *
  * 统一异常处理过滤器：将后续链路抛出的异常转换为统一的 JSON 错误响应。
  *
  * <p>该过滤器通常位于路由分发（Servlet）之前或之后，用于兜底处理：</p>
@@ -59,7 +59,7 @@ public class ExceptionHandlingFilter implements Filter {
     }
 
     /**
-     * 写入标准错误响应。
+     * 私有辅助方法，写入标准错误响应。用于将错误信息构造成 JSON 并写回客户端。
      *
      * <p>执行步骤：</p>
      * 1) 从请求上下文读取 TraceId（若存在），用于前后端/日志的链路对齐；<br>
@@ -74,8 +74,13 @@ public class ExceptionHandlingFilter implements Filter {
      * @throws IOException 写响应失败
      */
     private void writeError(HttpServletRequest req, HttpServletResponse res, ErrorCode errorCode, String message, Object data) throws IOException {
+        //  从请求属性中取出 **TraceId**。
+        // `TraceIdFilter` 是项目中另一个过滤器，它会在请求开始时生成一个唯一 ID 并存入 `request` 属性中。
+        // 这个 ID 会随日志一起输出，方便追踪一次请求的全链路日志。
         Object tid = req.getAttribute(TraceIdFilter.TRACE_ID_ATTR);
         String traceId = tid == null ? null : String.valueOf(tid);
+        
+        
         res.setStatus(errorCode.getHttpStatus());
         res.setContentType("application/json;charset=UTF-8");
         res.getWriter().write(JsonUtil.toJson(Result.fail(errorCode, message, traceId)));

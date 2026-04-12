@@ -90,4 +90,4 @@ application-dev.yml
 application-test.yml
 
 
-.m2repo
+.m2repo/

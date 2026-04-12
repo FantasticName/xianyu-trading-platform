@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 用户服务实现类
+ * 负责用户基本资料的管理及用户检索逻辑。
+ *
  * @author FantasticName
  */
 public class UserServiceImpl implements UserService {

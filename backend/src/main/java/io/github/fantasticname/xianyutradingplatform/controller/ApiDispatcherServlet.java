@@ -12,9 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-/**
- * @author FantasticName
- */
+
 /**
  * API 总入口 Servlet：承接所有 {@code /api/*} 请求，并基于 {@code pathInfo + HTTP method} 做路由分发。
  *
@@ -97,6 +95,17 @@ public class ApiDispatcherServlet extends HttpServlet {
             app.getListingController().create(req, resp, requireUid(req));
             return;
         }
+        if (pathInfo.startsWith("/listings/") && pathInfo.endsWith("/comments") && "GET".equalsIgnoreCase(method)) {
+            String listingId = pathInfo.substring("/listings/".length(), pathInfo.length() - "/comments".length());
+            app.getSocialController().listComments(req, resp, listingId);
+            return;
+        }
+        if (pathInfo.startsWith("/listings/") && pathInfo.endsWith("/comments") && "POST".equalsIgnoreCase(method)) {
+            String listingId = pathInfo.substring("/listings/".length(), pathInfo.length() - "/comments".length());
+            app.getSocialController().addComment(req, resp, requireUid(req), listingId);
+            return;
+        }
+
         if (pathInfo.startsWith("/listings/") && "GET".equalsIgnoreCase(method)) {
             String id = pathInfo.substring("/listings/".length());
             app.getListingController().getDetail(req, resp, id);
@@ -127,16 +136,6 @@ public class ApiDispatcherServlet extends HttpServlet {
         }
         if ("/favorites".equals(pathInfo) && "DELETE".equalsIgnoreCase(method)) {
             app.getSocialController().unfavorite(req, resp, requireUid(req));
-            return;
-        }
-        if (pathInfo.startsWith("/listings/") && pathInfo.endsWith("/comments") && "GET".equalsIgnoreCase(method)) {
-            String listingId = pathInfo.substring("/listings/".length(), pathInfo.length() - "/comments".length());
-            app.getSocialController().listComments(req, resp, listingId);
-            return;
-        }
-        if (pathInfo.startsWith("/listings/") && pathInfo.endsWith("/comments") && "POST".equalsIgnoreCase(method)) {
-            String listingId = pathInfo.substring("/listings/".length(), pathInfo.length() - "/comments".length());
-            app.getSocialController().addComment(req, resp, requireUid(req), listingId);
             return;
         }
         if (pathInfo.startsWith("/comments/") && "DELETE".equalsIgnoreCase(method)) {

@@ -3,18 +3,50 @@ package io.github.fantasticname.xianyutradingplatform.service.vo;
 import java.math.BigDecimal;
 
 /**
+ * 商品简要信息 VO
+ *
  * @author FantasticName
  */
 public class ListingVO {
+    /**
+     * 商品 ID
+     */
     private String id;
+    /**
+     * 卖家用户 ID
+     */
     private String sellerId;
+    /**
+     * 卖家昵称
+     */
     private String sellerNickname;
+    /**
+     * 商品标题
+     */
     private String title;
+    /**
+     * 商品价格
+     */
     private BigDecimal price;
+    /**
+     * 商品成色
+     */
     private String condition;
+    /**
+     * 商品分类
+     */
     private String category;
+    /**
+     * 商品封面图 URL
+     */
     private String coverUrl;
+    /**
+     * 商品状态
+     */
     private String status;
+    /**
+     * 发布时间
+     */
     private String createdAt;
 
     public String getId() {

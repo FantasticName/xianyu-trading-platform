@@ -1,15 +1,38 @@
 package io.github.fantasticname.xianyutradingplatform.service.vo;
 
 /**
+ * 评论简要信息 VO
+ *
  * @author FantasticName
  */
 public class CommentVO {
+    /**
+     * 评论 ID
+     */
     private String id;
+    /**
+     * 关联的商品 ID
+     */
     private String listingId;
+    /**
+     * 评论者用户 ID
+     */
     private String userId;
+    /**
+     * 评论者昵称
+     */
     private String userNickname;
+    /**
+     * 评论者头像 URL
+     */
     private String userAvatarUrl;
+    /**
+     * 评论内容
+     */
     private String content;
+    /**
+     * 创建时间
+     */
     private String createdAt;
 
     public String getId() {

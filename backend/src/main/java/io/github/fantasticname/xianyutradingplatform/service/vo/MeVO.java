@@ -1,13 +1,30 @@
 package io.github.fantasticname.xianyutradingplatform.service.vo;
 
 /**
+ * 当前用户信息 VO
+ *
  * @author FantasticName
  */
 public class MeVO {
+    /**
+     * 用户 ID
+     */
     private String id;
+    /**
+     * 用户账号
+     */
     private String account;
+    /**
+     * 用户昵称
+     */
     private String nickname;
+    /**
+     * 用户头像 URL
+     */
     private String avatarUrl;
+    /**
+     * 用户角色
+     */
     private String role;
 
     public String getId() {

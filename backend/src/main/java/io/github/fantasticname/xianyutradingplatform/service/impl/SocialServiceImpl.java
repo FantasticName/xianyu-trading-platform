@@ -25,6 +25,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 社交服务实现类
+ * 负责维护用户间的关注关系、用户对商品的收藏关系，以及商品评论的管理。
+ *
  * @author FantasticName
  */
 public class SocialServiceImpl implements SocialService {

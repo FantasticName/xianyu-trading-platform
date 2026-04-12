@@ -4,21 +4,62 @@ import java.math.BigDecimal;
 import java.util.List;
 
 /**
+ * 商品详情 VO
+ *
  * @author FantasticName
  */
 public class ListingDetailVO {
+    /**
+     * 商品 ID
+     */
     private String id;
+    /**
+     * 卖家用户 ID
+     */
     private String sellerId;
+    /**
+     * 卖家昵称
+     */
     private String sellerNickname;
+    /**
+     * 卖家头像 URL
+     */
     private String sellerAvatarUrl;
+    /**
+     * 商品标题
+     */
     private String title;
+    /**
+     * 商品价格
+     */
     private BigDecimal price;
+    /**
+     * 商品成色
+     */
     private String condition;
+    /**
+     * 商品分类
+     */
     private String category;
+    /**
+     * 商品详细描述
+     */
     private String description;
+    /**
+     * 商品封面图 URL
+     */
     private String coverUrl;
+    /**
+     * 商品所有图片 URL 列表
+     */
     private List<String> imageUrls;
+    /**
+     * 商品状态
+     */
     private String status;
+    /**
+     * 发布时间
+     */
     private String createdAt;
 
     public String getId() {

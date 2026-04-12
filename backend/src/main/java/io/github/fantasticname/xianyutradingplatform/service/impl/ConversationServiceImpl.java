@@ -22,6 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 会话服务实现类
+ * 负责管理买卖双方的沟通流程，包括会话的生命周期和消息的持久化。
+ *
  * @author FantasticName
  */
 public class ConversationServiceImpl implements ConversationService {

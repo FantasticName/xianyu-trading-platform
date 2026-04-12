@@ -1,10 +1,18 @@
 package io.github.fantasticname.xianyutradingplatform.service.dto;
 
 /**
+ * 更新个人资料请求 DTO
+ *
  * @author FantasticName
  */
 public class UpdateMeRequest {
+    /**
+     * 新昵称
+     */
     private String nickname;
+    /**
+     * 新头像 URL
+     */
     private String avatarUrl;
 
     public String getNickname() {
