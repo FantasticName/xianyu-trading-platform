@@ -63,8 +63,11 @@ export async function apiPatch<T>(url: string, body?: unknown) {
   return resp.data.data as T
 }
 
-export async function apiDelete<T>(url: string, params?: Record<string, unknown>) {
-  const resp = await http.delete<ApiResponse<T>>(url, { params })
+export async function apiDelete<T>(url: string, data?: any) {
+  const resp = await http.delete<ApiResponse<T>>(url, {
+    params: data,
+    data: data,
+  })
   return resp.data.data as T
 }
 
