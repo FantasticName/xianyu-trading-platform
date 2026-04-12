@@ -22,20 +22,57 @@ const adminInviteCode = ref('')
 
 const redirect = computed(() => (typeof route.query.redirect === 'string' ? route.query.redirect : '/'))
 
+const PHONE_REGEX = /^1\d{10}$/
+const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@(qq\.com|163\.com|126\.com)$/
+const PASSWORD_REGEX = /^[a-zA-Z0-9]{6,12}$/
+
 async function submit() {
   error.value = null
+
+  // 前端校验
+  const acc = account.value.trim()
+  const pwd = password.value
+  
+  if (!acc) {
+    error.value = '请输入账号'
+    return
+  }
+  if (!PHONE_REGEX.test(acc) && !EMAIL_REGEX.test(acc)) {
+    error.value = '账号格式不正确（手机号或QQ/网易邮箱）'
+    return
+  }
+  if (!pwd) {
+    error.value = '请输入密码'
+    return
+  }
+  if (!PASSWORD_REGEX.test(pwd)) {
+    error.value = '密码需为 6-12 位数字或字母'
+    return
+  }
+
+  if (mode.value === 'register') {
+    if (!nickname.value.trim()) {
+      error.value = '请输入昵称'
+      return
+    }
+    if (role.value === 'ADMIN' && !adminInviteCode.value.trim()) {
+      error.value = '请输入管理员邀请码'
+      return
+    }
+  }
+
   loading.value = true
   try {
     if (mode.value === 'login') {
-      const res = await api.login({ account: account.value, password: password.value })
+      const res = await api.login({ account: acc, password: pwd })
       setToken(res.token)
       router.replace(redirect.value)
       return
     }
 
     const res = await api.register({
-      account: account.value,
-      password: password.value,
+      account: acc,
+      password: pwd,
       nickname: nickname.value,
       role: role.value,
       adminInviteCode: role.value === 'ADMIN' ? adminInviteCode.value : undefined,

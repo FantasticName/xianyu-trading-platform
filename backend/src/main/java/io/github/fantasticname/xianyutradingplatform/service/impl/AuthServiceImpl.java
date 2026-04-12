@@ -13,6 +13,7 @@ import io.github.fantasticname.xianyutradingplatform.util.AppConfig;
 import io.github.fantasticname.xianyutradingplatform.util.JwtUtil;
 import io.github.fantasticname.xianyutradingplatform.util.TxManager;
 import io.github.fantasticname.xianyutradingplatform.util.UuidUtil;
+import io.github.fantasticname.xianyutradingplatform.util.ValidationUtil;
 import org.mindrot.jbcrypt.BCrypt;
 
 import javax.sql.DataSource;
@@ -79,8 +80,16 @@ public class AuthServiceImpl implements AuthService {
         if (account == null || account.isBlank() || password == null || password.isBlank()) {
             throw new BusinessException(ErrorCode.BAD_REQUEST, "账号或密码不能为空");
         }
+        
+        account = account.trim();
+        if (!ValidationUtil.isValidAccount(account)) {
+            throw new BusinessException(ErrorCode.BAD_REQUEST, "账号格式不正确（手机号或QQ/网易邮箱）");
+        }
+        if (!ValidationUtil.isValidPassword(password)) {
+            throw new BusinessException(ErrorCode.BAD_REQUEST, "密码需为 6-12 位数字或字母");
+        }
 
-        User u = userDao.findByAccount(account.trim());
+        User u = userDao.findByAccount(account);
         if (u == null) {
             throw new BusinessException(ErrorCode.UNAUTHORIZED, "账号或密码错误");
         }
@@ -103,13 +112,21 @@ public class AuthServiceImpl implements AuthService {
         if (request.getNickname() == null || request.getNickname().isBlank()) {
             throw new BusinessException(ErrorCode.BAD_REQUEST, "昵称不能为空");
         }
-        if (request.getPassword().length() < 6 || request.getPassword().length() > 32) {
-            throw new BusinessException(ErrorCode.BAD_REQUEST, "密码长度需在 6~32 之间");
+
+        String account = request.getAccount().trim();
+        String password = request.getPassword();
+        String nickname = request.getNickname().trim();
+
+        if (!ValidationUtil.isValidAccount(account)) {
+            throw new BusinessException(ErrorCode.BAD_REQUEST, "账号格式不正确（手机号或QQ/网易邮箱）");
         }
-        if (request.getNickname().length() > 20) {
+        if (!ValidationUtil.isValidPassword(password)) {
+            throw new BusinessException(ErrorCode.BAD_REQUEST, "密码需为 6-12 位数字或字母");
+        }
+        if (nickname.length() > 20) {
             throw new BusinessException(ErrorCode.BAD_REQUEST, "昵称过长");
         }
-        if (request.getAccount().length() > 255) {
+        if (account.length() > 255) {
             throw new BusinessException(ErrorCode.BAD_REQUEST, "账号过长");
         }
     }
